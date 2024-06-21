@@ -1,0 +1,85 @@
+class Paciente:
+    def __init__(self, nome, telefone):
+        self.nome = nome
+        self.telefone = telefone
+
+class Consulta:
+    def __init__(self, paciente, dia, hora, especialidade):
+        self.paciente = paciente
+        self.dia = dia
+        self.hora = hora
+        self.especialidade = especialidade
+
+
+pacientes_cadastrados = []
+consultas = []
+
+def cadastrar_paciente():
+    nome = input("Digite o nome do paciente: ")
+    telefone = input("Digite o telefone do paciente: ")
+    pacientes_cadastrados.append(Paciente(nome, telefone))
+    print("Paciente cadastrado com sucesso.")
+
+def listar_pacientes():
+    print("Lista de Pacientes Cadastrados:")
+    for i, paciente in enumerate(pacientes_cadastrados, start=1):
+        print(f"{i}. Nome: {paciente.nome}, Telefone: {paciente.telefone}")
+
+def marcar_consulta():
+    listar_pacientes()
+    if not pacientes_cadastrados:
+        print("Não há pacientes cadastrados.")
+        return
+    
+    escolha = int(input("Escolha o número do paciente para marcar consulta: "))
+    paciente = pacientes_cadastrados[escolha - 1]
+
+    dia = input("Digite o dia da consulta (dd/mm/aaaa): ")
+    hora = input("Digite a hora da consulta (hh:mm): ")
+    especialidade = input("Digite a especialidade desejada: ")
+
+    consultas.append(Consulta(paciente, dia, hora, especialidade))
+    print("Consulta marcada com sucesso.")
+
+def listar_consultas():
+    print("Lista de Consultas Marcadas:")
+    for i, consulta in enumerate(consultas, start=1):
+        print(f"{i}. Paciente: {consulta.paciente.nome}, Dia: {consulta.dia}, Hora: {consulta.hora}, Especialidade: {consulta.especialidade}")
+
+def cancelar_consulta():
+    listar_consultas()
+    if not consultas:
+        print("Não há consultas marcadas para cancelar.")
+        return
+    
+    escolha = int(input("Escolha o número da consulta para cancelar: "))
+    consulta_cancelada = consultas.pop(escolha - 1)
+    print(f"Consulta cancelada para o paciente {consulta_cancelada.paciente.nome} no dia {consulta_cancelada.dia} às {consulta_cancelada.hora}.")
+
+def menu():
+    while True:
+        print("\n### Sistema de Agendamento ###")
+        print("1. Cadastrar Paciente")
+        print("2. Marcar Consulta")
+        print("3. Cancelar Consulta")
+        print("4. Listar Consultas Marcadas")
+        print("5. Sair do Programa")
+        
+        opcao = input("Digite a opção desejada: ")
+
+        if opcao == '1':
+            cadastrar_paciente()
+        elif opcao == '2':
+            marcar_consulta()
+        elif opcao == '3':
+            cancelar_consulta()
+        elif opcao == '4':
+            listar_consultas()
+        elif opcao == '5':
+            print("Encerrando o programa...")
+            break
+        else:
+            print("Opção inválida. Por favor, digite novamente.")
+
+if __name__ == "__main__":
+    menu()
